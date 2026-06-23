@@ -4,7 +4,7 @@
     'category': 'Finance',
     'summary': 'Secure tracking of allocations and double-spending protection',
     'depends': ['base'],
-    'data': ['security/ir.model.access.csv','views.xml',],
+    'data': ['security/ir.model.access.csv', 'views.xml'],
     'installable': True,
     'application': True,
 }

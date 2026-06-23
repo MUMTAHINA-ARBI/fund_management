@@ -4,10 +4,9 @@ from odoo.exceptions import ValidationError
 class FundAllocation(models.Model):
     _name = 'fund.allocation'
     _description = 'Project Fund Allocation'
-    _inherit = ['mail.thread', 'mail.activity.mixin'] # Gives us the Audit History automatically!
 
     name = fields.Char(string='Project Name', required=True)
-    allocated_amount = fields.Float(string='Total Allocated Amount', required=True, tracking=True)
+    allocated_amount = fields.Float(string='Total Allocated Amount', required=True)
     
     # Mathematical tracking fields
     assigned_amount = fields.Float(string='Held / Assigned Balance', compute='_compute_balances', store=True)
@@ -44,11 +43,10 @@ class FundAllocation(models.Model):
 class FundRequisition(models.Model):
     _name = 'fund.requisition'
     _description = 'Fund Requisition'
-    _inherit = ['mail.thread']
 
     allocation_id = fields.Many2one('fund.allocation', string='Project Allocation', ondelete='cascade')
     description = fields.Char(string='Purpose / Expense Head', required=True)
-    amount = fields.Float(string='Requested Amount', required=True, tracking=True)
+    amount = fields.Float(string='Requested Amount', required=True)
     
     # GM and MD Approval State Workflow
     state = fields.Selection([
@@ -56,7 +54,7 @@ class FundRequisition(models.Model):
         ('gm_approved', 'GM Approved'),
         ('md_approved', 'MD Approved'),
         ('posted', 'Bills Posted / Spent')
-    ], default='draft', string='Status', tracking=True)
+    ], default='draft', string='Status')
 
     def action_gm_approve(self):
         self.state = 'gm_approved'

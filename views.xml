@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="view_fund_allocation_tree" model="ir.ui.view">
-        <name>fund.allocation.tree</name>
+        <name>fund.allocation.list</name>
         <model>fund.allocation</model>
         <arch type="xml">
             <list string="Fund Allocations">
                 <field name="name"/>
-                <field name="amount"/>
+                <field name="allocated_amount"/>
+                <field name="assigned_amount"/>
                 <field name="spent_amount"/>
-                <field name="remaining_amount"/>
+                <field name="available_amount"/>
             </list>
         </arch>
     </record>
@@ -19,14 +20,20 @@
         <arch type="xml">
             <form string="Fund Allocation">
                 <sheet>
-                    <group>
-                        <group>
+                    <div class="oe_title">
+                        <label for="name" string="Project Name"/>
+                        <h1>
                             <field name="name"/>
-                            <field name="amount"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Budget Allocation">
+                            <field name="allocated_amount"/>
                         </group>
-                        <group>
+                        <group string="Balance Overview">
+                            <field name="assigned_amount"/>
                             <field name="spent_amount"/>
-                            <field name="remaining_amount" readonly="1"/>
+                            <field name="available_amount"/>
                         </group>
                     </group>
                 </sheet>
@@ -40,6 +47,6 @@
         <view_mode>list,form</view_mode>
     </record>
 
-    <menuitem id="menu_fund_root" name="Fund Management" web_icon="base,images/modules.png" sequence="10"/>
+    <menuitem id="menu_fund_root" name="Fund Management" sequence="10"/>
     <menuitem id="menu_fund_allocation" name="Allocations" parent="menu_fund_root" action="action_fund_allocation" sequence="10"/>
 </odoo>
