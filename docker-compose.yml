@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  # Database Service (PostgreSQL Engine)
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=odoo_db_password
+      - POSTGRES_USER=odoo
+    volumes:
+      - fund_db_data:/var/lib/postgresql/data
+    restart: always
+
+  # Web Service (Odoo Instance running your code)
+  web:
+    build: .
+    depends_on:
+      - db
+    ports:
+      - "8070:8069" # Maps port 8070 on your host machine to avoid clashing with your local setup
+    volumes:
+      - .:/mnt/extra-addons/fund_management
+    environment:
+      - HOST=db
+      - USER=odoo
+      - PASSWORD=odoo_db_password
+    restart: always
+
+volumes:
+  fund_db_data:
